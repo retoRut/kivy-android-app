@@ -9,6 +9,7 @@ from kivy.uix.textinput import TextInput
 class MainApp(App):
     def build(self):
         """
+            Application for API calls
 
         :return:
         """
