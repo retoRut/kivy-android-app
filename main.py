@@ -1,59 +1,69 @@
-'''
-Camera Example
-==============
+import json
 
-This example demonstrates a simple use of the camera. It shows a window with
-a buttoned labelled 'play' to turn the camera on and off. Note that
-not finding a camera, perhaps because gstreamer is not installed, will
-throw an exception during the kv language processing.
-
-'''
-
-# Uncomment these lines to see all the messages
-# from kivy.logger import Logger
-# import logging
-# Logger.setLevel(logging.TRACE)
-
+import requests
 from kivy.app import App
-from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
-import time
-Builder.load_string('''
-<CameraClick>:
-    orientation: 'vertical'
-    Camera:
-        id: camera
-        resolution: (640, 480)
-        play: False
-    ToggleButton:
-        text: 'Play'
-        on_press: camera.play = not camera.play
-        size_hint_y: None
-        height: '48dp'
-    Button:
-        text: 'Capture'
-        size_hint_y: None
-        height: '48dp'
-        on_press: root.capture()
-''')
+from kivy.uix.button import Button
+from kivy.uix.textinput import TextInput
 
-
-class CameraClick(BoxLayout):
-    def capture(self):
-        '''
-        Function to capture the images and give them the names
-        according to their captured time and date.
-        '''
-        camera = self.ids['camera']
-        timestr = time.strftime("%Y%m%d_%H%M%S")
-        camera.export_to_png("IMG_{}.png".format(timestr))
-        print("Captured")
-
-
-class TestCamera(App):
-
+class MainApp(App):
     def build(self):
-        return CameraClick()
+        """
+
+        :return:
+        """
+        self.clientService = ClientService()
+        main_layout = BoxLayout(orientation="vertical")
+        self.solution = TextInput(
+            multiline=True, readonly=True, halign="left", font_size=20
+        )
+        main_layout.add_widget(self.solution)
+        get_button = Button(
+            text="GET", pos_hint={"center_x": 0.5, "center_y": 0.2}
+        )
+        get_button.bind(on_press=self.on_solution)
+        main_layout.add_widget(get_button)
+        return main_layout
+
+    def jprint(self, obj):
+        # create a formatted string of the Python JSON object
+        text = json.dumps(obj, sort_keys=True, indent=4)
+        print(text)
+
+    def on_solution(self, instance):
+        """
+         get Articel
+        :param instance:
+        :return:
+        """
+        text = 'GET'
+        #    solution = str(eval(self.solution.text))
+        self.solution.text = json.dumps(self.clientService.getAllContacts(), sort_keys=True, indent=4)
 
 
-TestCamera().run()
+
+
+class ClientService:
+
+    def __init__(self):
+        self.backend = 'https://rutishauser-ag.ch'
+        self.apikey = 'c2hhMjU2OjM1OjI1N2RmNjRmY2UxYTFiMDE2ODcxMmY0YWE5NGYyYWQ4MzkwM2JkZjA2YTNkZmM3NzAwNGExZmE3MmUyYThmZTY='
+        self.headers = {
+            'Authorization': 'Bearer ' + str(self.apikey),
+            'Content-Type': 'application/json',
+        }
+
+    def getAllContacts(self):
+        """
+            get all contacts from the homepage
+        :return: json of all contacts
+        """
+        url = self.backend + '/api/index.php/v1/contact'
+        response = requests.request('GET', url, headers=self.headers)
+        # self.jprint.jprint(response.json()['data'])
+        return response.json()['data']
+
+
+if __name__ == "__main__":
+    app = MainApp()
+    app.run()
