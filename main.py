@@ -1,5 +1,4 @@
 import json
-import chardet
 
 import requests
 from kivy.app import App
