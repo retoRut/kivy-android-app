@@ -1,4 +1,5 @@
 import json
+import chardet
 
 import requests
 from kivy.app import App
@@ -15,15 +16,31 @@ class MainApp(App):
         """
         self.clientService = ClientService()
         main_layout = BoxLayout(orientation="vertical")
+        button_layout = BoxLayout(orientation="vertical")
+
         self.solution = TextInput(
-            multiline=True, readonly=True, halign="left", font_size=20
+            multiline=True, readonly=True, halign="left", font_size=40
         )
         main_layout.add_widget(self.solution)
         get_button = Button(
             text="GET", pos_hint={"center_x": 0.5, "center_y": 0.2}
         )
-        get_button.bind(on_press=self.on_solution)
-        main_layout.add_widget(get_button)
+        get_button.bind(on_press=self.on_get_click)
+
+        create_button = Button(
+            text="CREATE", pos_hint={"center_x": 0.5, "center_y": 0.2}
+        )
+        create_button.bind(on_press=self.on_create_click)
+
+        put_button = Button(
+            text="PUT", pos_hint={"center_x": 0.5, "center_y": 0.2}
+        )
+        put_button.bind(on_press=self.on_put_click)
+
+        button_layout.add_widget(get_button)
+        button_layout.add_widget(create_button)
+        button_layout.add_widget(put_button)
+        main_layout.add_widget(button_layout)
         return main_layout
 
     def jprint(self, obj):
@@ -31,23 +48,34 @@ class MainApp(App):
         text = json.dumps(obj, sort_keys=True, indent=4)
         print(text)
 
-    def on_solution(self, instance):
+    def on_get_click(self, instance):
         """
          get Articel
         :param instance:
         :return:
         """
-        text = 'GET'
-        #    solution = str(eval(self.solution.text))
         self.solution.text = json.dumps(self.clientService.getAllContacts(), sort_keys=True, indent=4)
 
+    def on_create_click(self, instance):
+        """
+         get Articel
+        :param instance:
+        :return:
+        """
 
+    def on_put_click(self, instance):
+        """
+         get Articel
+        :param instance:
+        :return:
+        """
 
 
 class ClientService:
 
     def __init__(self):
         self.backend = 'https://rutishauser-ag.ch'
+        #self.backend = 'https://193.246.38.195'
         self.apikey = 'c2hhMjU2OjM1OjI1N2RmNjRmY2UxYTFiMDE2ODcxMmY0YWE5NGYyYWQ4MzkwM2JkZjA2YTNkZmM3NzAwNGExZmE3MmUyYThmZTY='
         self.headers = {
             'Authorization': 'Bearer ' + str(self.apikey),
