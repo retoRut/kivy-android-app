@@ -2,9 +2,48 @@ import json
 
 import requests
 from kivy.app import App
+from kivy.core.window import Window
+from kivy.lang import Builder
+from kivy.properties import ObjectProperty, StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
+from kivy.uix.scrollview import ScrollView
 from kivy.uix.textinput import TextInput
+
+
+Builder.load_string('''
+<MainLayout>
+    orientation:"vertical"
+    text: 'communication to website..'
+    ScrollView:
+        id: scroll
+        Label:
+            id:screen
+            text:root.text
+            size_hint: 1, None
+            height: self.texture_size[1]
+            halign:'left'
+            font_size:'40'    
+    BoxLayout: 
+        orientation:"vertical" 
+        Button:
+            id:get
+            text: "GET"
+            on_press: root.on_get_click()
+        Button:
+            id:create
+            text: "CREATE"
+            on_press: root.on_create_click() 
+        Button:
+            id:put   
+            text: "PUT"
+            on_press: root.on_put_click()
+        Button:
+            id:clear   
+            text: "CLEAR"
+            on_press: root.on_clear_click()
+''')
+
 
 class MainApp(App):
     def build(self):
@@ -13,33 +52,11 @@ class MainApp(App):
 
         :return:
         """
+       # clientService = ClientService()
+      #  main_layout = BoxLayout(orientation="vertical")
         self.clientService = ClientService()
-        main_layout = BoxLayout(orientation="vertical")
-        button_layout = BoxLayout(orientation="vertical")
-
-        self.solution = TextInput(
-            multiline=True, readonly=True, halign="left", font_size=40
-        )
-        main_layout.add_widget(self.solution)
-        get_button = Button(
-            text="GET", pos_hint={"center_x": 0.5, "center_y": 0.2}
-        )
-        get_button.bind(on_press=self.on_get_click)
-
-        create_button = Button(
-            text="CREATE", pos_hint={"center_x": 0.5, "center_y": 0.2}
-        )
-        create_button.bind(on_press=self.on_create_click)
-
-        put_button = Button(
-            text="PUT", pos_hint={"center_x": 0.5, "center_y": 0.2}
-        )
-        put_button.bind(on_press=self.on_put_click)
-
-        button_layout.add_widget(get_button)
-        button_layout.add_widget(create_button)
-        button_layout.add_widget(put_button)
-        main_layout.add_widget(button_layout)
+        main_layout = MainLayout()
+        main_layout.setClientServcie(self.clientService)
         return main_layout
 
     def jprint(self, obj):
@@ -47,13 +64,29 @@ class MainApp(App):
         text = json.dumps(obj, sort_keys=True, indent=4)
         print(text)
 
-    def on_get_click(self, instance):
-        """
-         get Articel
-        :param instance:
+
+class MainLayout(BoxLayout):
+    screen = StringProperty(' ')
+
+    def setClientServcie(self, clientService):
+        '''
+            set the CleitnService for connecting to the homepage
+        :param clientService:
         :return:
+        '''
+        self.clientService = clientService
+
+
+    def on_get_click(self):
         """
-        self.solution.text = json.dumps(self.clientService.getAllContacts(), sort_keys=True, indent=4)
+             get Articel
+            :param instance:
+            :return:
+        """
+        print(" button_get")
+        tmp = json.dumps(self.clientService.getAllContacts(), sort_keys=True, indent=4)
+        #print(tmp)
+        self.text = tmp
 
     def on_create_click(self, instance):
         """
@@ -68,6 +101,12 @@ class MainApp(App):
         :param instance:
         :return:
         """
+    def on_clear_click(self):
+        '''
+
+        :return:
+        '''
+        self.text = ' '
 
 
 class ClientService:
@@ -95,3 +134,5 @@ class ClientService:
 if __name__ == "__main__":
     app = MainApp()
     app.run()
+
+
