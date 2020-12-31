@@ -1,0 +1,109 @@
+<MainLayout>:
+    TabbedPanelItem:
+        text: 'wash'
+        BoxLayout:
+            orientation:"vertical"
+            ScrollView:
+                id: scroll
+                Label:
+                    id:communicationScreen_Label
+                    text:''
+                    size_hint: 1, None
+                    height: self.texture_size[1]
+                    halign:'left'
+                    font_size:'30'
+            ScrollView:
+                id: scroll2
+                Label:
+                    id:dataScreen_Label
+                    text:''
+                    size_hint: 1, None
+                    height: self.texture_size[1]
+                    halign:'left'
+                    font_size:'30'
+            BoxLayout:
+                orientation:"vertical"
+                BoxLayout:
+                    orientation:"horizontal"
+                    Label:
+                        id:mieter_label
+                        text:'MIETER'
+                        size_hint_x: 20
+                    Spinner:
+                        id: mieter_Spinner
+                        text: ''                   #default value showed
+                        values: root.getSpinnerValues()      #list of values to show
+                        on_text:  root.on_mieter_select(self.text)
+                        size_hint_x: 20
+                BoxLayout:
+                    orientation:"horizontal"
+                    Label:
+                        id:date_label
+                        text:'DATUM'
+                        size_hint_x: 20
+                    TextInput:
+                        id:date
+                        text:root.on_date_text()
+                        on_text: root.on_text_date(self.text)
+                        size_hint_x: 20
+                BoxLayout:
+                    orientation:"horizontal"
+                    Label:
+                        id:duration_label
+                        text:'DAUER'
+                        size_hint_x: 20
+                    TextInput:
+                        id:duration_textInput
+                        text:'5h'
+                        size_hint_x: 20
+                BoxLayout:
+                    orientation:"horizontal"
+                    Label:
+                        id:typ_label
+                        text:'TYP'
+                        size_hint_x: 20
+                    Spinner:
+                        id: typ_Spinner
+                        text: 'Waschmaschiene'                  #default value showed
+                        values: ['Waschmaschiene','Tumbler']    #list of values to show
+                        on_text:  root.on_typ_select(self.text)
+                        size_hint_x: 20
+                BoxLayout:
+                    orientation:"horizontal"
+                    Label:
+                        id:cost_label
+                        text:'KOSTEN'
+                        size_hint_x: 20
+                    TextInput:
+                        id:cost_TextInput
+                        text:'SFR 2.50'
+                        size_hint_x: 20
+                BoxLayout:
+                    orientation:"horizontal"
+                    Button:
+                        id:add
+                        text: "ADD"
+                        on_press: root.on_add_click()
+                    Button:
+                        id:clear
+                        text: "CLEAR"
+                        on_press: root.on_clear_click()
+                    Button:
+                        id:send
+                        text: "SEND"
+                        on_press: root.on_send_click()
+
+    TabbedPanelItem:
+        text: 'Rapportierung'
+
+    TabbedPanelItem:
+        text: 'Haustechnik'
+
+<CreatePopup>:
+    id:pop
+    size_hint: .4, .4
+    auto_dismiss: False
+    title: 'Create new Machine usage'
+    Button:
+        text: 'Click here to dismiss'
+        on_press: pop.dismiss()
