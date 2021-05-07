@@ -10,29 +10,46 @@ class ClientService:
     #password = 'retorutishauser1976'
 
     def __init__(self, backend, apikey):
+        """
+            init
+        :param backend: url of backend
+        :param apikey:  access key
+        """
         self.backend = backend
         #self.key = apikey
         self.headers = {
             'Authorization': 'Bearer ' + str(apikey),
             'Content-Type': 'application/json',
         }
-        #self.jprint = jsonprint()
+
 
 
 
 class JoomlaConnectorService(ClientService):
 
     def __init__(self, backend, apikey):
+        """
+
+        :param backend: url of backend
+        :param apikey: access key
+        """
         super().__init__(backend, apikey)
 
-
-    def getAllArticles(self):
+    def get_all_articles(self):
+        """
+            Get all articles from the joomla website
+        :return:
+        """
         url = self.backend+'/api/index.php/v1/content/article'
         response = requests.request('GET', url, headers=self.headers)
         return response.json()
 
+    def get_article(self, alias):
+        """
 
-    def getArticle(self,alias):
+        :param alias:
+        :return:
+        """
         url = self.backend+'/api/index.php/v1/content/article'
         response = requests.request('GET', url, headers=self.headers)
         #jprint(response.json())
@@ -42,7 +59,7 @@ class JoomlaConnectorService(ClientService):
                 return i['attributes']
         return False
 
-    def getAllCategories(self):
+    def get_all_categories(self):
         """
 
         :rtype: object
@@ -51,7 +68,12 @@ class JoomlaConnectorService(ClientService):
         response = requests.request('GET', url, headers=self.headers)
         return response.json()
 
-    def getCategorieID(self,name):
+    def get_categorie_id(self, name):
+        """
+
+        :param name:
+        :return:
+        """
         url = self.backend+'/api/index.php/v1/content/categories'
         response = requests.request('GET', url, headers=self.headers)
         #self.jprint(response.json())
@@ -61,7 +83,16 @@ class JoomlaConnectorService(ClientService):
                 return str(i['attributes']['id'])
         return False
 
-    def createNewArticle(self,alias,title,text, catID, mainLayout):
+    def create_new_article(self, alias, title, text, catID, mainLayout):
+        """
+
+        :param alias:
+        :param title:
+        :param text:
+        :param catID:
+        :param mainLayout:
+        :return:
+        """
         url = self.backend+'/api/index.php/v1/content/article'
         post = json.dumps({
         'alias': str(alias),
@@ -78,8 +109,11 @@ class JoomlaConnectorService(ClientService):
         print(response.headers)
         print(response.text.encode('utf8'))
 
-
-    def getAllUsersByName(self):
+    def get_all_users_by_name(self):
+        """
+            get the name of all users
+        :return: names as json
+        """
         userlist = []
         url = self.backend+'/api/index.php/v1/users'
         response = requests.request('GET', url, headers=self.headers)
@@ -88,27 +122,49 @@ class JoomlaConnectorService(ClientService):
             userlist.append(user['attributes']['name'])
         return userlist
 
-
-    def getAllUsers(self):
+    def get_all_users(self):
+        """
+            get all Users from the joomla website
+        :return: users as json
+        """
         url = self.backend+'/api/index.php/v1/users'
         response = requests.request('GET', url, headers=self.headers)
         return response.json()
 
-    def getAllContactsByName(self):
+    def get_all_contacts_by_name_and_building(self, building):
+        """
+            get all names from the contacts (not homepage user) of the joomla homepage
+        :return: contact names as list
+        """
         userlist = []
         url = self.backend+'/api/index.php/v1/contact'
         response = requests.request('GET', url, headers=self.headers)
         res = response.json()
+        text = json.dumps(res, sort_keys=True, indent=4)
+        print(text)
         for user in res['data'] :
-            userlist.append(user['attributes']['name'])
+            if building == user['attributes']['catid']:
+                userlist.append(user['attributes']['name'])
             #self.jprint.jprint(user['attributes'])
         return userlist
 
+    def get_all_contact_categories(self):
+        """
 
-    def getAllContacts(self):
+        :return:
+        """
+        url = self.backend+'/api/index.php/v1/contact/categories'
+        response = requests.request('GET', url, headers=self.headers)
+        res = response.json()
+        text = json.dumps(res, sort_keys=True, indent=4)
+        print(text)
+        return res['data']
+
+
+    def get_all_contacts(self):
         """
             get all contacts from the homepage
-        :return: json of all contacts
+        :return: contacts as json
         """
         url = self.backend+'/api/index.php/v1/contact'
         response = requests.request('GET', url, headers=self.headers)

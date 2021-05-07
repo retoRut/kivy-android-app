@@ -1,4 +1,5 @@
 <MainLayout>:
+    do_default_tab:False
     TabbedPanelItem:
         text: 'wash'
         BoxLayout:
@@ -26,71 +27,84 @@
                 BoxLayout:
                     orientation:"horizontal"
                     Label:
-                        id:mieter_label
-                        text:'MIETER'
+                        id:periode_label
+                        text:'PERIODE'
                         size_hint_x: 20
+                    Spinner:
+                        id: periode_Spinner
+                        text: ''                   #default value showed
+                        values: root.periode_Spinner_values()      #list of values to show
+                        on_text:  root.on_periode_select(self.text)
+                        size_hint_x: 20
+                BoxLayout:
+                    orientation:"horizontal"
+                    Button:
+                        id:get_haus
+                        text: "GET HAUS"
+                        size_hint_x: 20
+                        on_press: root.get_haus_click()
+                    Spinner:
+                        id: building_Spinner
+                        text: ''                   #default value showed
+                        values: root.building_Spinner_values()      #list of values to show
+                        on_text:  root.on_building_select(self.text)
+                        size_hint_x: 20
+                        disabled: True
+                BoxLayout:
+                    orientation:"horizontal"
+                    Button:
+                        id:get_mieter
+                        text: "GET MIETER"
+                        size_hint_x: 20
+                        on_press: root.get_mieter_click()
                     Spinner:
                         id: mieter_Spinner
                         text: ''                   #default value showed
-                        values: root.getSpinnerValues()      #list of values to show
+                        values: root.get_spinner_mieter_values()      #list of values to show
                         on_text:  root.on_mieter_select(self.text)
                         size_hint_x: 20
+                        disabled: True
                 BoxLayout:
                     orientation:"horizontal"
                     Label:
                         id:date_label
                         text:'DATUM'
                         size_hint_x: 20
+                        disabled: True
                     TextInput:
                         id:date
                         text:root.on_date_text()
                         on_text: root.on_text_date(self.text)
                         size_hint_x: 20
-                BoxLayout:
-                    orientation:"horizontal"
-                    Label:
-                        id:duration_label
-                        text:'DAUER'
-                        size_hint_x: 20
-                    TextInput:
-                        id:duration_textInput
-                        text:'5h'
-                        size_hint_x: 20
-                BoxLayout:
-                    orientation:"horizontal"
-                    Label:
-                        id:typ_label
-                        text:'TYP'
-                        size_hint_x: 20
-                    Spinner:
-                        id: typ_Spinner
-                        text: 'Waschmaschiene'                  #default value showed
-                        values: ['Waschmaschiene','Tumbler']    #list of values to show
-                        on_text:  root.on_typ_select(self.text)
-                        size_hint_x: 20
+                        disabled: True
                 BoxLayout:
                     orientation:"horizontal"
                     Label:
                         id:cost_label
-                        text:'KOSTEN'
+                        text:'BETRAG'
                         size_hint_x: 20
+                        disabled: True
                     TextInput:
                         id:cost_TextInput
                         text:'SFR 2.50'
                         size_hint_x: 20
+                        disabled: True
                 BoxLayout:
                     orientation:"horizontal"
                     Button:
-                        id:add
-                        text: "ADD"
-                        on_press: root.on_add_click()
+                        id:preview
+                        text: "PREVIEW"
+                        disabled: True
+                        on_press: root.on_preview_click()
                     Button:
-                        id:clear
+                        id:cl
                         text: "CLEAR"
+                        disabled: True
                         on_press: root.on_clear_click()
                     Button:
                         id:send
                         text: "SEND"
+                        disabled: True
                         on_press: root.on_send_click()
 
     TabbedPanelItem:
@@ -99,11 +113,42 @@
     TabbedPanelItem:
         text: 'Haustechnik'
 
-<CreatePopup>:
-    id:pop
-    size_hint: .4, .4
+
+<ErrorPopup@Popup>:
+    message: message
     auto_dismiss: False
-    title: 'Create new Machine usage'
-    Button:
-        text: 'Click here to dismiss'
-        on_press: pop.dismiss()
+    title: "Error"
+    size_hint: None, None
+    width: grid.width + dp(25)
+    height: grid.height + root.title_size + dp(48)
+
+    GridLayout:
+        id: grid
+        size_hint: None, None
+        size: self.minimum_size
+        padding: [10, 5]
+        cols: 1
+        AnchorLayout:
+            anchor_x: "center"
+            anchor_y: "bottom"
+            size_hint: None, None
+            height: message.height
+            width: max(message.width, butt.width)
+            Label:
+                id: message
+                size_hint: None, None
+                size: self.texture_size
+                padding: [10, 5]
+        AnchorLayout:
+            anchor_x: "center"
+            anchor_y: "bottom"
+            size_hint: None, None
+            height: butt.height
+            width: max(message.width, butt.width)
+            Button:
+                id: butt
+                text: 'Close'
+                size_hint: None, None
+                size: self.texture_size
+                padding: [10, 5]
+                on_release: root.dismiss()
