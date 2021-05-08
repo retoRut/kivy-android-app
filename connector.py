@@ -137,6 +137,7 @@ class JoomlaConnectorService(ClientService):
         :return: contact names as list
         """
         userlist = []
+        
         url = self.backend+'/api/index.php/v1/contact'
         response = requests.request('GET', url, headers=self.headers)
         res = response.json()

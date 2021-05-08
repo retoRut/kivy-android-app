@@ -1,7 +1,6 @@
 import json
 from datetime import datetime
 
-from PIL.ImageShow import show
 from kivy.app import App
 from kivy.factory import Factory
 from kivy.properties import StringProperty
@@ -137,7 +136,7 @@ class MainLayout(TabbedPanel):
         #TODO: Check inf the file already exist, if yes expand the file
         self.MainApp.clientService.create_new_article('APP-' + self.MainApp.root.ids.mieter_Spinner.text , 'APP-' + self.MainApp.root.ids.mieter_Spinner.text , self.MainApp.root.ids.dataScreen_Label.text, catID, self.MainApp)
         #pops=CreatePopup()
-        
+
         #pops.open()
 
     def on_preview_click(self):
