@@ -1,18 +1,20 @@
 import json
-from datetime import datetime
+from datetime import datetime, time
 
 from kivy.app import App
 from kivy.factory import Factory
 from kivy.properties import StringProperty
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
 from kivy.uix.tabbedpanel import TabbedPanel
 import connector
 #import cv2
+from kivy.core.window import Window
 
 
-import pytesseract
+
 
 
 class MainApp(App):
@@ -42,6 +44,19 @@ class MainLayout(TabbedPanel):
         self.MainApp = mainApp
         self.mieter = 0
         self.building = 0
+
+
+    def capture(self):
+        '''
+        Function to capture the images and give them the names
+        according to their captured time and date.
+        '''
+        camera = self.ids['camera']
+        timestr = time.strftime("%Y%m%d_%H%M%S")
+        camera.export_to_png("IMG_{}.png".format(timestr))
+        print("Captured")
+
+
 
     def periode_Spinner_values(self):
         """
@@ -160,6 +175,7 @@ class MainLayout(TabbedPanel):
         :return:
         '''
         self.MainApp.root.ids.dataScreen_Label.text =''
+        Calendar()
 
     def get_haus_click(self):
 
@@ -208,6 +224,7 @@ class MainLayout(TabbedPanel):
                 break
 
     def on_date_text(self):
+
         return datetime.now().strftime('%d.%m.%Y')
 
     def on_typ_select(self, text):

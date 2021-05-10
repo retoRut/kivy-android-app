@@ -4,24 +4,6 @@
         text: 'wash'
         BoxLayout:
             orientation:"vertical"
-            ScrollView:
-                id: scroll
-                Label:
-                    id:communicationScreen_Label
-                    text:''
-                    size_hint: 1, None
-                    height: self.texture_size[1]
-                    halign:'left'
-                    font_size:'30'
-            ScrollView:
-                id: scroll2
-                Label:
-                    id:dataScreen_Label
-                    text:''
-                    size_hint: 1, None
-                    height: self.texture_size[1]
-                    halign:'left'
-                    font_size:'30'
             BoxLayout:
                 orientation:"vertical"
                 BoxLayout:
@@ -107,9 +89,43 @@
                         text: "SEND"
                         disabled: True
                         on_press: root.on_send_click()
+            ScrollView:
+                id: scroll
+                Label:
+                    id:communicationScreen_Label
+                    text:''
+                    size_hint: 1, None
+                    height: self.texture_size[1]
+                    halign:'left'
+                    font_size:'30'
+            ScrollView:
+                id: scroll2
+                Label:
+                    id:dataScreen_Label
+                    text:''
+                    size_hint: 1, None
+                    height: self.texture_size[1]
+                    halign:'left'
+                    font_size:'30'
 
     TabbedPanelItem:
         text: 'Rapportierung'
+        BoxLayout:
+            orientation: 'vertical'
+            Camera:
+                id: camera
+                resolution: (640, 480)
+                play: False
+            ToggleButton:
+                text: 'Play'
+                on_press: camera.play = not camera.play
+                size_hint_y: None
+                height: '48dp'
+            Button:
+                text: 'Capture'
+                size_hint_y: None
+                height: '48dp'
+                on_press: root.capture()
 
     TabbedPanelItem:
         text: 'Haustechnik'
@@ -153,3 +169,5 @@
                 size: self.texture_size
                 padding: [10, 5]
                 on_release: root.dismiss()
+
+
