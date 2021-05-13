@@ -12,8 +12,7 @@ from kivy.uix.tabbedpanel import TabbedPanel
 import connector
 #import cv2
 from kivy.core.window import Window
-
-
+# from android.permissions import request_permissions, Permission
 
 
 
@@ -31,6 +30,8 @@ class MainApp(App):
         apikey = 'c2hhMjU2OjM1OjI1N2RmNjRmY2UxYTFiMDE2ODcxMmY0YWE5NGYyYWQ4MzkwM2JkZjA2YTNkZmM3NzAwNGExZmE3MmUyYThmZTY='
         self.clientService = connector.JoomlaConnectorService(backend, apikey)
         self.logger = Logger()
+
+
        # main_layout.setMainApp(self)
         return main_layout
 
@@ -175,7 +176,7 @@ class MainLayout(TabbedPanel):
         :return:
         '''
         self.MainApp.root.ids.dataScreen_Label.text =''
-        Calendar()
+        # Calendar()
 
     def get_haus_click(self):
 
