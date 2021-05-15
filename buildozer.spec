@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = android,player,python3,kivy,requests,urllib3,chardet,idna
+requirements = android,plyer,python3,kivy,requests,urllib3,chardet,idna
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -88,10 +88,6 @@ fullscreen = 0
 #android.presplash_lottie = "path/to/lottie/file.json"
 
 # (list) Permissions
-
-
-
-
 android.permissions = INTERNET,CAMERA
 
 # (list) features (adds uses-feature -tags to manifest)
