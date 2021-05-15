@@ -15,7 +15,9 @@ import connector
 from kivy.core.window import Window
 # from android.permissions import request_permissions, Permission
 
-
+from kivy.logger import Logger
+import logging
+Logger.setLevel(logging.TRACE)
 
 class MainApp(App):
 
