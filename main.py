@@ -4,22 +4,13 @@ from datetime import datetime, time
 from kivy.app import App
 from kivy.factory import Factory
 from kivy.properties import StringProperty
-from kivy.uix.camera import Camera
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.popup import Popup
 from kivy.uix.tabbedpanel import TabbedPanel
 import connector
-#import cv2
-from kivy.core.window import Window
-# from android.permissions import request_permissions, Permission
-#from android.permissions import request_permissions, Permission
-#request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
 
-from kivy.logger import Logger
-import logging
-Logger.setLevel(logging.TRACE)
+# Enable logging
+#from kivy.logger import Logger
+#import logging
+#Logger.setLevel(logging.TRACE)
 
 class MainApp(App):
 
