@@ -1,7 +1,7 @@
 <MainLayout>:
     do_default_tab:False
     TabbedPanelItem:
-        text: 'wash'
+        text: 'Kassabuch'
         BoxLayout:
             orientation:"vertical"
             BoxLayout:
@@ -9,76 +9,110 @@
                 BoxLayout:
                     orientation:"horizontal"
                     Label:
-                        id:periode_label
-                        text:'PERIODE'
+                        id:year_label
+                        text:'Jahr'
                         size_hint_x: 20
                     Spinner:
-                        id: periode_Spinner
-                        text: ''                   #default value showed
-                        values: root.periode_Spinner_values()      #list of values to show
-                        on_text:  root.on_periode_select(self.text)
+                        id: year_Spinner
+                        text:    root.kassabuch_year_spinner_default_value()      #default value showed
+                        values:  root.kassabuch_year_spinner_values()      #list of values to show
+                        on_text: root.kassabuch_year_select(self.text)
                         size_hint_x: 20
                 BoxLayout:
                     orientation:"horizontal"
                     Button:
                         id:get_haus
-                        text: "GET HAUS"
+                        text: "GET Categories"
                         size_hint_x: 20
-                        on_press: root.get_haus_click()
+                        on_press: root.kassabuch_get_categories_on_click()
                     Spinner:
-                        id: building_Spinner
+                        id: category_Spinner
                         text: ''                   #default value showed
-                        values: root.building_Spinner_values()      #list of values to show
-                        on_text:  root.on_building_select(self.text)
+                        values: root.kassabuch_category_Spinner_values()      #list of values to show
+                        on_text:  root.kassabuch_category_spinner_select(self.text)
                         size_hint_x: 20
                         disabled: True
                 BoxLayout:
-
                     orientation:"horizontal"
                     Button:
-                        id:get_mieter
-                        text: "GET MIETER"
-                        size_hint_x: 20
-                        on_press: root.get_mieter_click()
-                    Spinner:
-                        id: mieter_Spinner
-                        text: ''                   #default value showed
-                        values: root.get_spinner_mieter_values()      #list of values to show
-                        on_text:  root.on_mieter_select(self.text)
+                        id:get_contacts
+                        text: "GET Contacts"
                         size_hint_x: 20
                         disabled: True
+                        on_press: root.kassabuch_get_contacts_on_click()
+                    Spinner:
+                        id: contacts_Spinner
+                        text: ''                   #default value showed
+                        values: root.kassabuch_contacts_spinner_values()      #list of values to show
+                        on_text:  root.kassabuch_contacts_spinner_select(self.text)
+                        size_hint_x: 20
+                        disabled: True
+                BoxLayout:
+                    orientation:"horizontal"
+                    Label:
+                        id:fuer_button
+                        text: "Für"
+                        size_hint_x: 20
+                        disabled: False
+                    Spinner:
+                        id: fuer_spinner
+                        text: ''                   #default value showed
+                        values: root.kassabuch_fuer_spinner_values()      #list of values to show
+                        on_text:  root.kassabuch_fuer_spinner_select(self.text)
+                        size_hint_x: 20
+                        disabled: False
                 BoxLayout:
                     orientation:"horizontal"
                     Label:
                         id:date_label
                         text:'DATUM'
                         size_hint_x: 20
-                        disabled: True
+                        disabled: False
                     TextInput:
                         id:date
                         text:root.on_date_text()
                         on_text: root.on_text_date(self.text)
                         size_hint_x: 20
-                        disabled: True
+                        disabled: False
+                        font_size:'10'
+
+                BoxLayout:
+                    orientation:"horizontal"
+                    Label:
+                        id:EA_label
+                        text:'E/A'
+                        size_hint_x: 20
+                    Spinner:
+                        id: EA_Spinner
+                        text:    root.kassabuch_ea_spinner_default_value()      #default value showed
+                        values:  root.kassabuch_ea_spinner_values()      #list of values to show
+                        on_text: root.kassabuch_ea_select(self.text)
+                        size_hint_x: 20
                 BoxLayout:
                     orientation:"horizontal"
                     Label:
                         id:cost_label
                         text:'BETRAG'
                         size_hint_x: 20
-                        disabled: True
+                        disabled: False
                     TextInput:
                         id:cost_TextInput
                         text:'SFR 2.50'
                         size_hint_x: 20
-                        disabled: True
+                        disabled: False
+                        font_size:'10'
                 BoxLayout:
                     orientation:"horizontal"
                     Button:
                         id:preview
-                        text: "PREVIEW"
+                        text: "PREV KASSABUCH"
+                        disabled: False
+                        on_press: root.kassabuch_prev_kassabuch_button_on_click()
+                    Button:
+                        id:preview
+                        text: "PREVIEW ENTRY"
                         disabled: True
-                        on_press: root.on_preview_click()
+                        on_press: root.kassabuch_preview_entry_button_on_click()
                     Button:
                         id:cl
                         text: "CLEAR"
@@ -90,19 +124,19 @@
                         disabled: True
                         on_press: root.on_send_click()
             ScrollView:
-                id: scroll
+                id: communication_scroll
                 Label:
                     id:communicationScreen_Label
-                    text:''
+                    text:' '
                     size_hint: 1, None
                     height: self.texture_size[1]
                     halign:'left'
                     font_size:'30'
             ScrollView:
-                id: scroll2
+                id: data_scroll
                 Label:
                     id:dataScreen_Label
-                    text:''
+                    text:' '
                     size_hint: 1, None
                     height: self.texture_size[1]
                     halign:'left'
